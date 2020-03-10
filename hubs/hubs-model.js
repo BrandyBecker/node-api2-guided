@@ -13,6 +13,7 @@ module.exports = {
   addMessage,
 };
 
+//FIND:
 function find(query) {
   const { page = 1, limit = 2, sortby = 'id', sortdir = 'asc' } = query;
   const offset = limit * (page - 1);
@@ -25,30 +26,35 @@ function find(query) {
   return rows;
 }
 
+//FINDBYID:
 function findById(id) {
   return db('hubs')
     .where({ id })
     .first();
 }
 
+//ADD:
 async function add(hub) {
   const [id] = await db('hubs').insert(hub);
 
   return findById(id);
 }
 
+//REMOVE:
 function remove(id) {
   return db('hubs')
     .where({ id })
     .del();
 }
 
+//UPDATE:
 function update(id, changes) {
   return db('hubs')
     .where({ id })
     .update(changes, '*');
 }
 
+//FINDHUBMESSAGES:
 function findHubMessages(hubId) {
   return db('messages as m')
     .join('hubs as h', 'm.hub_id', 'h.id')
@@ -57,6 +63,7 @@ function findHubMessages(hubId) {
 }
 
 // You Do
+//FINDMESSAGEBYID: 
 function findMessageById(id) {
   return db('messages')
     .where({ id })
