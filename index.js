@@ -6,6 +6,7 @@ const server = express();
 
 server.use(express.json());
 
+//GET: /
 server.get('/', (req, res) => {
   res.send(`
     <h2>Lambda Hubs API</h>
@@ -13,6 +14,7 @@ server.get('/', (req, res) => {
   `);
 });
 
+//GET: /api/hubs
 server.get('/api/hubs', (req, res) => {
   Hubs.find(req.query)
   .then(hubs => {
@@ -27,6 +29,7 @@ server.get('/api/hubs', (req, res) => {
   });
 });
 
+//GET: /api/hubs/:id
 server.get('/api/hubs/:id', (req, res) => {
   Hubs.findById(req.params.id)
   .then(hub => {
@@ -45,6 +48,7 @@ server.get('/api/hubs/:id', (req, res) => {
   });
 });
 
+//POST: /api/hubs
 server.post('/api/hubs', (req, res) => {
   Hubs.add(req.body)
   .then(hub => {
@@ -59,6 +63,7 @@ server.post('/api/hubs', (req, res) => {
   });
 });
 
+//DELETE: /api/hubs/:id
 server.delete('/api/hubs/:id', (req, res) => {
   Hubs.remove(req.params.id)
   .then(count => {
@@ -77,6 +82,7 @@ server.delete('/api/hubs/:id', (req, res) => {
   });
 });
 
+//PUT: /api/hubs/:id
 server.put('/api/hubs/:id', (req, res) => {
   const changes = req.body;
   Hubs.update(req.params.id, changes)
