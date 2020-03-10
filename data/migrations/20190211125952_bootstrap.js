@@ -1,28 +1,54 @@
 exports.up = function(knex) {
   return knex.schema
+  //HUBS TABLE
     .createTable('hubs', tbl => {
-      tbl.increments();
-      tbl.string('name').notNullable();
-      tbl.timestamps(true, true);
+      //ID:
+      tbl
+      .increments();
 
-      tbl.unique('name');
+      //NAME Field:
+      tbl
+      .string('name')
+      .notNullable();
+
+      //TIMESTAMPS Field:
+      tbl
+      .timestamps(true, true);
+
+      //UNIQUE NAME Field
+      tbl
+      .unique('name');
     })
-    .createTable('messages', tbl => {
-      tbl.increments();
-      tbl
-        .string('sender')
-        .notNullable()
-        .index();
-      tbl.text('text').notNullable();
-      tbl.timestamps(true, true);
 
+  //MESSAGES TABLE
+    .createTable('messages', tbl => {
+      //ID:
       tbl
-        .integer('hub_id')
-        .unsigned()
-        .references('id')
-        .inTable('hubs')
-        .onDelete('CASCADE')
-        .onUpdate('CASCADE');
+      .increments();
+
+      //SENDER Field:
+      tbl
+      .string('sender')
+      .notNullable()
+      .index();
+
+      //TEXT Field:
+      tbl
+      .text('text')
+      .notNullable();
+
+      //TIMESTAMP Field:
+      tbl
+      .timestamps(true, true);
+
+      //HUB_ID Field:
+      tbl
+      .integer('hub_id')
+      .unsigned()
+      .references('id')
+      .inTable('hubs')
+      .onDelete('CASCADE')
+      .onUpdate('CASCADE');
     });
 };
 
