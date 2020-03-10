@@ -4,20 +4,27 @@ const Hubs = require('./hubs/hubs-model.js');
 
 const server = express();
 
+//USE express.json
 server.use(express.json());
 
+//GET: /
 server.get('/', (req, res) => {
+  //SEND:
   res.send(`
     <h2>Lambda Hubs API</h>
     <p>Welcome to the Lambda Hubs API</p>
   `);
 });
 
+//GET: /api/hubs
 server.get('/api/hubs', (req, res) => {
+  //FIND:
   Hubs.find(req.query)
+  //THEN:
   .then(hubs => {
     res.status(200).json(hubs);
   })
+  //CATCH:
   .catch(error => {
     // log error to database
     console.log(error);
@@ -27,8 +34,11 @@ server.get('/api/hubs', (req, res) => {
   });
 });
 
+//GET: /api/hubs/:id
 server.get('/api/hubs/:id', (req, res) => {
+  //FINDBYID:
   Hubs.findById(req.params.id)
+  //THEN:
   .then(hub => {
     if (hub) {
       res.status(200).json(hub);
@@ -36,6 +46,7 @@ server.get('/api/hubs/:id', (req, res) => {
       res.status(404).json({ message: 'Hub not found' });
     }
   })
+  //CATCH:
   .catch(error => {
     // log error to database
     console.log(error);
@@ -45,11 +56,15 @@ server.get('/api/hubs/:id', (req, res) => {
   });
 });
 
+//POST: /api/hubs
 server.post('/api/hubs', (req, res) => {
+  //ADD:
   Hubs.add(req.body)
+  //THEN:
   .then(hub => {
     res.status(201).json(hub);
   })
+  //CATCH:
   .catch(error => {
     // log error to database
     console.log(error);
@@ -59,8 +74,11 @@ server.post('/api/hubs', (req, res) => {
   });
 });
 
+//DELETE: /api/hubs/:id
 server.delete('/api/hubs/:id', (req, res) => {
+  //REMOVE:
   Hubs.remove(req.params.id)
+  //THEN:
   .then(count => {
     if (count > 0) {
       res.status(200).json({ message: 'The hub has been nuked' });
@@ -68,6 +86,7 @@ server.delete('/api/hubs/:id', (req, res) => {
       res.status(404).json({ message: 'The hub could not be found' });
     }
   })
+  //CATCH:
   .catch(error => {
     // log error to database
     console.log(error);
@@ -77,9 +96,12 @@ server.delete('/api/hubs/:id', (req, res) => {
   });
 });
 
+//PUT: /api/hubs/:id
 server.put('/api/hubs/:id', (req, res) => {
   const changes = req.body;
+  //UPDATE:
   Hubs.update(req.params.id, changes)
+  //THEN:
   .then(hub => {
     if (hub) {
       res.status(200).json(hub);
@@ -87,6 +109,7 @@ server.put('/api/hubs/:id', (req, res) => {
       res.status(404).json({ message: 'The hub could not be found' });
     }
   })
+  //CATCH:
   .catch(error => {
     // log error to database
     console.log(error);
@@ -99,6 +122,7 @@ server.put('/api/hubs/:id', (req, res) => {
 // add an endpoint that returns all the messages for a hub
 // add an endpoint for adding new message to a hub
 
+//LISTEN:
 server.listen(4000, () => {
   console.log('\n*** Server Running on http://localhost:4000 ***\n');
 });
